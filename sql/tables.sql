@@ -40,11 +40,14 @@ create table suppliers (
 
 create table resources (
     id int auto_increment primary key,
+    admin_id int not null,
     supplier_id int not null,
     name varchar(255) not null,
     quantity int not null,
     unitPrice decimal(10, 2) not null,
-    totalPrice decimal(10, 2) not null
+    totalPrice decimal(10, 2) not null,
+    foreign key(admin_id) references admins(id) on delete cascade,
+    foreign key(supplier_id) references suppliers(id) on delete cascade
 );
 
 create table consumed_resources (
@@ -53,5 +56,7 @@ create table consumed_resources (
     resource_id int not null,
     quantity int not null,
     unitPrice decimal(10, 2) not null,
-    totalPrice decimal(10, 2) not null
+    totalPrice decimal(10, 2) not null,
+    foreign key(task_id) references tasks(id) on delete cascade,
+    foreign key(resource_id) references resources(id) on delete cascade
 );
