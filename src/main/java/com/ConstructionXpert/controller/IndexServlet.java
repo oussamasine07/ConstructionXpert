@@ -1,5 +1,6 @@
 package com.ConstructionXpert.controller;
 
+import com.ConstructionXpert.dao.ConnectToDb;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,6 +18,9 @@ public class IndexServlet extends HttpServlet {
     protected void doGet (HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException
     {
+        ConnectToDb con = new ConnectToDb();
+
+        con.getConnection();
         res.sendRedirect( req.getContextPath() + "/dashboard");
     }
 
