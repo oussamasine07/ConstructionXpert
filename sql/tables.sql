@@ -1,5 +1,6 @@
+drop database constructionxpert;
 create database constructionxpert;
-user constructionxpert;
+use constructionxpert;
 
 create table admins (
     id int auto_increment primary key,
@@ -24,7 +25,7 @@ create table tasks (
     project_id int not null,
     name varchar(255) not null,
     description text,
-    endDate date not null,
+    startDate date not null,
     endDate date not null,
     foreign key(project_id) references projects(id) on delete cascade
 );
@@ -54,23 +55,3 @@ create table consumed_resources (
     unitPrice decimal(10, 2) not null,
     totalPrice decimal(10, 2) not null
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
