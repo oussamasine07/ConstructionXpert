@@ -1,5 +1,7 @@
 package com.ConstructionXpert.controller.project;
 
+import com.ConstructionXpert.model.Admin;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,9 +16,12 @@ public class CreateServlet extends HttpServlet {
 
     }
 
-    protected void doGet (HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException
     {
+
+        RequestDispatcher rd = req.getRequestDispatcher("/views/project/create.jsp");
+        rd.forward(req, res);
 
     }
 
