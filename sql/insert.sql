@@ -1,9 +1,10 @@
-
+######################### admins #########################
 insert into admins
     (name, email, password)
 values
     ("sine oussama", "sine@gmail.com", "123456");
 
+######################### Suppliers #########################
 INSERT INTO suppliers
     (admin_id, name, address, phone, email)
 VALUES
@@ -24,10 +25,12 @@ INSERT INTO resources
 VALUES
     (?, ?, ?, ?, ?);
 
+######################### Projects #########################
+
 insert into projects
     (admin_id, name, description, startDate, endDate, budget)
 values
-    (1, "project one", "thisnfn qlkh fkajf afkjhaf iuefuh iufh a kj", "01-05-2025", "21-11-2027", 50000);
+    (?, ?, ?, ?, ?, ?);
 
 
 
