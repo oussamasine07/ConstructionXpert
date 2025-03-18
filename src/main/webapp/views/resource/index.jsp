@@ -130,6 +130,9 @@
                                         <td class="px-5 py-4 sm:px-6">
                                           <div class="flex items-center">
                                             <a href="${pageContext.request.contextPath}/resource/update?id=<%= res.getResourceId() %>">edit</a>
+                                            <form action="${pageContext.request.contextPath}/resource/delete?id=<%= res.getResourceId() %>" method="POST">
+                                                <button type="sumbmit">delete</button>
+                                            </form>
                                           </div>
                                         </td>
                                       </tr>

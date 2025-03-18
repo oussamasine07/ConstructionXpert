@@ -41,6 +41,9 @@ public class ResourceDAO extends ConnectToDb {
             "        unitPrice = ?\n" +
             "where id = ?;";
 
+    private static final String DELETE_RESOURCE_BY_ID = "delete from resources\n" +
+            "where id = ?;";
+
     public ResourceDAO () {}
 
     public List<Resource> listResourcesById (int adminId) {
@@ -138,6 +141,21 @@ public class ResourceDAO extends ConnectToDb {
 
             System.out.println(stmt.toString());
 
+            stmt.executeUpdate();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteResourceBytId ( int resourceId ) {
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(DELETE_RESOURCE_BY_ID);
+        ){
+
+            stmt.setInt(1, resourceId);
             stmt.executeUpdate();
 
         }
