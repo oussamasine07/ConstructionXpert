@@ -24,33 +24,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@WebServlet("/resource/create")
-public class CreateServlet extends HttpServlet {
+@WebServlet("/resource/update")
+public class UpdateServlet extends HttpServlet {
 
-    private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    private final Validator validator = factory.getValidator();
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
 
     ResourceDAO resourceDAO = null;
     SupplierDAO supplierDAO = null;
 
-
-    public void init() {
-        supplierDAO = new SupplierDAO();
+    public void init () {
         resourceDAO = new ResourceDAO();
+        supplierDAO = new SupplierDAO();
     }
 
     protected void doGet (HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException
     {
-
         HttpSession session = req.getSession();
-
         Admin admin = (Admin) session.getAttribute("admin");
 
         List<Supplier> suppliers = supplierDAO.getSuppliersByAdminId(admin.getAdminId());
-
         req.setAttribute("suppliers", suppliers);
-        RequestDispatcher rd = req.getRequestDispatcher("/views/resource/create.jsp");
+
+        int resourceId = Integer.parseInt(req.getParameter("id"));
+        Resource resource = resourceDAO.getResourceById( resourceId );
+        req.setAttribute("resource", resource);
+
+        RequestDispatcher rd = req.getRequestDispatcher("/views/resource/edit.jsp");
         rd.forward(req, res);
 
     }
@@ -97,11 +98,12 @@ public class CreateServlet extends HttpServlet {
             resource.setAdmin(admin);
             resource.setSupplier(supplier);
 
+            resource.setResourceId(Integer.parseInt(req.getParameter("id")));
             resource.setName(resourceDTO.getName());
             resource.setQuantity(resourceDTO.getQuantity());
             resource.setUnitPrice(resourceDTO.getUnitPrice());
 
-            resourceDAO.insertResource( resource );
+            resourceDAO.updateResource( resource );
 
             res.sendRedirect(req.getContextPath() + "/resource");
 
