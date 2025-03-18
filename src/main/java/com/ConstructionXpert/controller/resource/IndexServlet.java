@@ -30,9 +30,9 @@ public class IndexServlet extends HttpServlet {
         HttpSession session = req.getSession();
         Admin admin = (Admin) session.getAttribute("admin");
         System.out.println(admin);
-//        List<Resource> resources = resourceDAO.listResources(admin.getAdminId());
-//
-//        req.setAttribute("resources", resources);
+        List<Resource> resources = resourceDAO.listResourcesById(admin.getAdminId());
+
+        req.setAttribute("resources", resources);
 
         RequestDispatcher rd = req.getRequestDispatcher("/views/resource/index.jsp");
         rd.forward(req, res);

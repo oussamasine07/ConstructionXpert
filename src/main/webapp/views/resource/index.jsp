@@ -1,4 +1,9 @@
 
+    <%@ page import="com.ConstructionXpert.model.Resource, java.util.*" %>
+    <%
+        List<Resource> resources = (List<Resource>) request.getAttribute("resources");
+
+    %>
     <jsp:include page="/views/parcials/header.jsp" />
 
         <div class="p-4 mx-auto max-w-screen-2xl md:p-6">
@@ -90,44 +95,46 @@
                             <!-- table header end -->
                             <!-- table body start -->
                             <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                              <tr>
 
-                                <td class="px-5 py-4 sm:px-6">
-                                  <div class="flex items-center">
-                                    <p class="text-gray-500 text-theme-sm dark:text-gray-200">
-                                      khicha ta3 sima
-                                    </p>
-                                  </div>
-                                </td>
-                                <td class="px-5 py-4 sm:px-6">
-                                  <div class="flex items-center">
-                                    <p class="text-gray-500 text-theme-sm dark:text-gray-200">
-                                      12
-                                    </p>
-                                  </div>
-                                </td>
-                                <td class="px-5 py-4 sm:px-6">
-                                  <div class="flex items-center">
-                                    <p class="text-gray-500 text-theme-sm dark:text-gray-200">
-                                      200.00
-                                    </p>
-                                  </div>
-                                </td>
-                                <td class="px-5 py-4 sm:px-6">
-                                  <div class="flex items-center">
-                                    <p class="text-gray-500 text-theme-sm dark:text-gray-200">
-                                      4000.00
-                                    </p>
-                                  </div>
-                                </td>
+                                <% for (Resource res : resources ) { %>
+                                    <tr>
+                                        <td class="px-5 py-4 sm:px-6">
+                                          <div class="flex items-center">
+                                            <p class="text-gray-500 text-theme-sm dark:text-gray-200">
+                                              <%= res.getName() %>
+                                            </p>
+                                          </div>
+                                        </td>
+                                        <td class="px-5 py-4 sm:px-6">
+                                          <div class="flex items-center">
+                                            <p class="text-gray-500 text-theme-sm dark:text-gray-200">
+                                              <%= res.getQuantity() %>
+                                            </p>
+                                          </div>
+                                        </td>
+                                        <td class="px-5 py-4 sm:px-6">
+                                          <div class="flex items-center">
+                                            <p class="text-gray-500 text-theme-sm dark:text-gray-200">
+                                              <%= res.getUnitPrice() %>
+                                            </p>
+                                          </div>
+                                        </td>
+                                        <td class="px-5 py-4 sm:px-6">
+                                          <div class="flex items-center">
+                                            <p class="text-gray-500 text-theme-sm dark:text-gray-200">
+                                              <%= res.getTotalPrice() %>
+                                            </p>
+                                          </div>
+                                        </td>
 
-                                <td class="px-5 py-4 sm:px-6">
-                                  <div class="flex items-center">
-                                    edit this
-                                  </div>
-                                </td>
+                                        <td class="px-5 py-4 sm:px-6">
+                                          <div class="flex items-center">
+                                            <a href="${pageContext.request.contextPath}/resource/update?id=<%= res.getResourceId() %>">edit</a>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                <% } %>
 
-                              </tr>
 
                             </tbody>
                           </table>

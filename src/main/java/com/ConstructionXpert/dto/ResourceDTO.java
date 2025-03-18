@@ -7,10 +7,12 @@ public class ResourceDTO {
     @NotBlank(message = "resouce name is required")
     private String name;
 
-    @NotBlank(message = "quantity is required")
+    @NotNull(message = "quantity is required")
+    @Min(value = 1, message = "quantity should be at least 1")
     private int quantity;
 
-    @NotBlank(message = "unit price is required")
+
+    @Positive(message = "price should be greater than 0")
     private double unitPrice;
 
     public ResourceDTO(String name, int quantity, double unitPrice) {
@@ -19,29 +21,29 @@ public class ResourceDTO {
         this.unitPrice = unitPrice;
     }
 
-    public @NotBlank(message = "resouce name is required") String getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(@NotBlank(message = "resouce name is required") String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    @NotBlank(message = "quantity is required")
+
     public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(@NotBlank(message = "quantity is required") int quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    @NotBlank(message = "unit price is required")
+
     public double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(@NotBlank(message = "unit price is required") double unitPrice) {
+    public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
     }
 }

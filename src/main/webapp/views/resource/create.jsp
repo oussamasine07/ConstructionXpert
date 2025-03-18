@@ -1,8 +1,16 @@
 
-    <%@ page import="com.ConstructionXpert.model.Supplier, java.util.*" %>
+    <%@ page import="com.ConstructionXpert.model.Supplier, java.util.*, com.ConstructionXpert.dto.*" %>
 
     <%
         List<Supplier> suppliers = (List<Supplier>) request.getAttribute("suppliers");
+        Map<String, String> errors = (Map<String, String>) session.getAttribute("errors");
+        session.removeAttribute("errors");
+
+        ResourceDTO old = (ResourceDTO) session.getAttribute("old");
+        session.removeAttribute("old");
+
+
+
     %>
 
     <jsp:include page="/views/parcials/header.jsp" />
@@ -74,36 +82,41 @@
                             Name
                           </label>
                           <div class="relative">
-                            <input type="text" value="" name="name" placeholder="Enter resource name" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                            <input type="text" value="<%= old != null ? old.getName() : "" %>" name="name" placeholder="Enter resource name" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                           </div>
-
-                          <p class="text-theme-xs text-error-500 mt-1.5">
-                            This is an error message.
-                          </p>
+                            <% if (errors != null && errors.containsKey("name")) { %>
+                                <p class="text-theme-xs text-error-500 mt-1.5">
+                                    <%= errors.get("name") %>
+                                </p>
+                            <% } %>
                         </div>
                         <div>
                           <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                             Quantity
                           </label>
                           <div class="relative">
-                            <input type="text" value="" name="quantity" placeholder="Enter resource quantity" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                            <input type="number" value="<%= old != null ? old.getQuantity() : "" %>" name="quantity" placeholder="Enter resource quantity" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                           </div>
 
-                          <p class="text-theme-xs text-error-500 mt-1.5">
-                            This is an error message.
-                          </p>
+                          <% if (errors != null && errors.containsKey("quantity")) { %>
+                              <p class="text-theme-xs text-error-500 mt-1.5">
+                                  <%= errors.get("quantity") %>
+                              </p>
+                          <% } %>
                         </div>
                         <div>
                           <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                             Unit price
                           </label>
                           <div class="relative">
-                            <input type="text" value="" name="unitPrice" placeholder="Enter unit price" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                            <input type="text" value="<%= old != null ? old.getUnitPrice() : "" %>" name="unitPrice" placeholder="Enter unit price" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                           </div>
 
-                          <p class="text-theme-xs text-error-500 mt-1.5">
-                            This is an error message.
-                          </p>
+                          <% if (errors != null && errors.containsKey("unitPrice")) { %>
+                                <p class="text-theme-xs text-error-500 mt-1.5">
+                                    <%= errors.get("unitPrice") %>
+                                </p>
+                          <% } %>
                         </div>
                         <div>
                             <button type="submit" class="py-2 px-4 bg-blue-400 text-gray-700 dark:text-white" >Create Resource</button>
