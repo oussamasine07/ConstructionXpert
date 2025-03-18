@@ -7,6 +7,7 @@ public class Task {
     private String description;
     private String startDate;
     private String endDate;
+    private Project project;
     // add the list of resources
 
     public Task () {}

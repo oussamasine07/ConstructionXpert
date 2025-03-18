@@ -8,7 +8,7 @@ public class Project {
     private String startDate;
     private String endDate;
     private double budget;
-    public Admin admin;
+    private Admin admin;
 
     public Project () {}
 

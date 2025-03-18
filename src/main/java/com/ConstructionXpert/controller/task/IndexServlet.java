@@ -1,31 +1,34 @@
-package com.ConstructionXpert.controller;
+package com.ConstructionXpert.controller.task;
 
-import com.ConstructionXpert.dao.ConnectToDb;
-import com.ConstructionXpert.model.Admin;
+import com.ConstructionXpert.dao.TaskDAO;
+import com.ConstructionXpert.model.Task;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet("/")
+@WebServlet("/task")
 public class IndexServlet extends HttpServlet {
 
-    public void init () {}
+    TaskDAO taskDAO = null;
+
+    public void init () {
+        taskDAO = new TaskDAO();
+    }
 
     protected void doGet (HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException
     {
-        Admin admin = new Admin("sine@gmail.com", "oussama", 1);
+        List<Task> tasks = taskDAO.listAllTasks(1);
+        req.setAttribute("tasks", tasks);
 
-        HttpSession session = req.getSession();
-        session.setAttribute("admin", admin);
-
-        res.sendRedirect( req.getContextPath() + "/dashboard");
+        RequestDispatcher rd = req.getRequestDispatcher("/views/task/index.jsp");
+        rd.forward(req, res);
     }
 
 }
