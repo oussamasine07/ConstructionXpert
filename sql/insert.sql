@@ -24,6 +24,11 @@ INSERT INTO resources
 VALUES
     (?, ?, ?, ?, ?);
 
+insert into projects
+    (admin_id, name, description, startDate, endDate, budget)
+values
+    (1, "project one", "thisnfn qlkh fkajf afkjhaf iuefuh iufh a kj", "01-05-2025", "21-11-2027", 50000);
+
 
 
 
