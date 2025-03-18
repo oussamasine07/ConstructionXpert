@@ -32,10 +32,12 @@ create table tasks (
 
 create table suppliers (
     id int auto_increment primary key,
+    admin_id int not null,
     name varchar(255) not null,
     address varchar(255),
     phone varchar(255),
-    email varchar(255)
+    email varchar(255),
+    foreign key(admin_id) references admins(id) on delete cascade
 );
 
 create table resources (

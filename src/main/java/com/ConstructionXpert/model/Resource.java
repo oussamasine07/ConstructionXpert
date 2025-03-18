@@ -8,6 +8,7 @@ public class Resource {
     private double unitPrice;
     private double totalPrice;
     private Supplier supplier;
+    private Admin admin;
 
     public Resource () {}
 
@@ -57,5 +58,13 @@ public class Resource {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 }
