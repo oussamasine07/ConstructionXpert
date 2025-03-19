@@ -56,6 +56,8 @@ public class CreateServlet extends HttpServlet {
 
         int projectId = Integer.parseInt(req.getParameter("projectId"));
 
+
+
         LocalDate startDate = (req.getParameter("startDate") != null && !req.getParameter("startDate").isEmpty())
                 ? LocalDate.parse(req.getParameter("startDate"))
                 : null;
@@ -80,7 +82,7 @@ public class CreateServlet extends HttpServlet {
 
             session.setAttribute("errors", errors);
             session.setAttribute("old", taskDTO);
-            res.sendRedirect(req.getContextPath() + "/task/create");
+            res.sendRedirect(req.getContextPath() + "/tasks/create?projectId=" + projectId);
         } else {
 
             Task task = new Task();

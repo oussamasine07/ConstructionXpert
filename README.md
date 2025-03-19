@@ -5,3 +5,11 @@ managing tasks:
         - /tasks/create?prjectId=1
         - /tasks/update?prjectId=1&taskId=1
         - /tasks/delete?projectId=1&taskId=1
+
+resources = [
+    {
+        resourceId: 1,
+        quantity: 2
+        unitPrice: 111
+    }
+]
