@@ -1,4 +1,4 @@
-
+###################### Reources ######################
 select * from suppliers
 where admin_id = ?;
 
@@ -17,3 +17,34 @@ from resources
 inner join suppliers
 on suppliers.id = resources.supplier_id
 where resources.id = ?;
+
+###################### Projects ######################
+select * from projects
+where admin_id = ?;
+
+select * from projects
+where id = ?;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
