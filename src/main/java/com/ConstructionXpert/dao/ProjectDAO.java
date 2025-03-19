@@ -29,6 +29,8 @@ public class ProjectDAO extends ConnectToDb {
             "        endDate = ?,\n" +
             "        budget  = ?\n" +
             "where id = ?;";
+    private static final String DELETE_PROJECT = "delete from projects\n" +
+            "where id = ?;";
 
     public ProjectDAO () {}
 
@@ -128,6 +130,21 @@ public class ProjectDAO extends ConnectToDb {
             stmt.setInt(6, project.getProjectId());
 
             System.out.println(stmt.toString());
+            stmt.executeUpdate();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteProjectById (int projectId) {
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(DELETE_PROJECT);
+        ){
+            stmt.setInt(1, projectId);
+
             stmt.executeUpdate();
 
         }
