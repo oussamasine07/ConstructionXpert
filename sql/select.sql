@@ -22,6 +22,9 @@ where resources.id = ?;
 select * from projects
 where admin_id = ?;
 
+select * from projects
+where id = ?;
+
 
 
 

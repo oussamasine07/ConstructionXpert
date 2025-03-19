@@ -15,10 +15,20 @@ public class ProjectDAO extends ConnectToDb {
 
     private static final String LIST_PROJECTS_BY_ADMIN_ID = "select * from projects\n" +
             "where admin_id = ?;";
+    private static final String GET_PROJECT_BY_ID = "select * from projects\n" +
+            "where id = ?;";
     private static final String INSERT_PROJECT = "insert into projects\n" +
             "    (admin_id, name, description, startDate, endDate, budget)\n" +
             "values\n" +
             "    (?, ?, ?, ?, ?, ?);";
+    private static final String UPDATE_PROJECT = "update projects\n" +
+            "    set\n" +
+            "        name = ?,\n" +
+            "        description = ?,\n" +
+            "        startDate = ?,\n" +
+            "        endDate = ?,\n" +
+            "        budget  = ?\n" +
+            "where id = ?;";
 
     public ProjectDAO () {}
 
@@ -36,7 +46,9 @@ public class ProjectDAO extends ConnectToDb {
                 Project project = new Project();
                 Admin admin = new Admin();
                 admin.setAdminId(rs.getInt("admin_id"));
+                project.setProjectId(rs.getInt("id"));
                 project.setName(rs.getString("name"));
+                project.setDescription(rs.getString("description"));
                 project.setStartDate(LocalDate.parse(rs.getString("startDate")));
                 project.setEndDate(LocalDate.parse(rs.getString("endDate")));
                 project.setBudget(rs.getDouble("budget"));
@@ -50,6 +62,34 @@ public class ProjectDAO extends ConnectToDb {
         }
 
         return projects;
+    }
+
+    public Project getProjectById ( int projectId ) {
+        Project project = new Project();
+
+        try (
+            Connection con = getConnection();
+            PreparedStatement stmt = con.prepareStatement(GET_PROJECT_BY_ID);
+        ){
+            stmt.setInt(1, projectId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                project.setProjectId(rs.getInt("id"));
+                project.setName(rs.getString("name"));
+                project.setDescription(rs.getString("description"));
+                project.setStartDate(LocalDate.parse(rs.getString("startDate")));
+                project.setEndDate(LocalDate.parse(rs.getString("endDate")));
+                project.setBudget(rs.getDouble("budget"));
+            }
+
+        }
+        catch (SQLException e){
+
+        }
+
+        return project;
+
     }
 
     public void insertProject (Project project) {
@@ -74,6 +114,29 @@ public class ProjectDAO extends ConnectToDb {
         }
 
     }
+
+    public void updateProject (Project project) {
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(UPDATE_PROJECT);
+        ){
+            stmt.setString(1, project.getName());
+            stmt.setString(2, project.getDescription());
+            stmt.setString(3, project.getStartDate().toString());
+            stmt.setString(4, project.getEndDate().toString());
+            stmt.setDouble(5, project.getBudget());
+            stmt.setInt(6, project.getProjectId());
+
+            System.out.println(stmt.toString());
+            stmt.executeUpdate();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
 

@@ -49,12 +49,6 @@ public class CreateServlet extends HttpServlet {
         HttpSession session = req.getSession();
         Admin admin = (Admin) session.getAttribute("admin");
 
-//        String name = req.getParameter("name");
-//        String description = req.getParameter("description");
-//        String startDate = req.getParameter("startDate");
-//        String endDate = req.getParameter("endDate");
-//        double budget = Double.parseDouble(req.getParameter("budget"));
-
         double budget = (req.getParameter("budget") != null && !req.getParameter("budget").isEmpty())
                         ? Double.parseDouble(req.getParameter("budget"))
                         : 0;
@@ -68,10 +62,8 @@ public class CreateServlet extends HttpServlet {
         ProjectDTO projectDTO = new ProjectDTO(
                 req.getParameter("name"),
                 req.getParameter("description"),
-                //req.getParameter("startDate"),
                 startDate,
                 endDate,
-                //req.getParameter("endDate"),
                 budget
         );
 

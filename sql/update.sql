@@ -1,4 +1,4 @@
-
+##################### resources ##################
 update resources
     set
         admin_id = ?,
@@ -6,4 +6,14 @@ update resources
         name = ?,
         quantity = ?,
         unitPrice = ?
+where id = ?;
+
+##################### projects ##################
+update projects
+    set
+        name = ?,
+        description = ?,
+        startDate = ?,
+        endDate = ?,
+        budget  = ?
 where id = ?;
