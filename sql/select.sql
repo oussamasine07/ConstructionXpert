@@ -25,8 +25,9 @@ where admin_id = ?;
 select * from projects
 where id = ?;
 
-
-
+###################### Tasks ######################
+select * from tasks
+where project_id = ?;
 
 
 

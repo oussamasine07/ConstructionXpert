@@ -51,4 +51,12 @@ public class Task {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 }

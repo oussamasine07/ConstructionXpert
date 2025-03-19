@@ -32,6 +32,13 @@ insert into projects
 values
     (?, ?, ?, ?, ?, ?);
 
+######################### Tasks #########################
+insert into tasks
+    (project_id, name, description, startDate, endDate)
+values
+    (1, "task one", "thisnfn qlkh fkajf afkjhaf iuefuh iufh a kj", "2025-01-04", "2025-10-10"),
+    (1, "task two", "thisnfnlkfna foaf aohf aoeiefhzoiehf ufh a kj", "2025-01-05", "2027-09-10");
+
 
 
 

@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/task")
+@WebServlet("/tasks")
 public class IndexServlet extends HttpServlet {
 
     TaskDAO taskDAO = null;
@@ -24,7 +24,9 @@ public class IndexServlet extends HttpServlet {
     protected void doGet (HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException
     {
-        List<Task> tasks = taskDAO.listAllTasks(1);
+        int projectId = Integer.parseInt(req.getParameter("projectId"));
+
+        List<Task> tasks = taskDAO.listProjectTasks(projectId);
         req.setAttribute("tasks", tasks);
 
         RequestDispatcher rd = req.getRequestDispatcher("/views/task/index.jsp");
