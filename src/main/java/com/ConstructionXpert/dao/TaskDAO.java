@@ -3,10 +3,8 @@ package com.ConstructionXpert.dao;
 import com.ConstructionXpert.model.Project;
 import com.ConstructionXpert.model.Task;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +12,11 @@ public class TaskDAO extends ConnectToDb {
 
     private static final String LIST_TASKS_BY_PROJECT_ID = "select * from tasks\n" +
             "where project_id = ?;";
+
+    private static final String INSERT_TASK = "insert into tasks\n" +
+            "    (project_id, name, description, startDate, endDate)\n" +
+            "values\n" +
+            "    (?, ?, ?, ?, ?);";
 
     public TaskDAO () {}
     private ProjectDAO projectDAO = new ProjectDAO();
@@ -35,8 +38,8 @@ public class TaskDAO extends ConnectToDb {
                 task.setTaskId(rs.getInt("id"));
                 task.setName(rs.getString("name"));
                 task.setDescription(rs.getString("description"));
-                task.setStartDate(rs.getString("startDate"));
-                task.setEndDate(rs.getString("endDate"));
+                task.setStartDate(LocalDate.parse(rs.getString("startDate")));
+                task.setEndDate(LocalDate.parse(rs.getString("endDate")));
                 task.setProject(project);
 
                 tasks.add(task);
@@ -49,6 +52,28 @@ public class TaskDAO extends ConnectToDb {
         }
 
         return tasks;
+    }
+
+    public void insertTask ( Task task ) {
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(INSERT_TASK, Statement.RETURN_GENERATED_KEYS);
+        ){
+            stmt.setInt(1, task.getProject().getProjectId());
+            stmt.setString(2, task.getName());
+            stmt.setString(3, task.getDescription());
+            stmt.setString(4, task.getStartDate().toString());
+            stmt.setString(5, task.getEndDate().toString());
+
+            System.out.println(stmt.toString());
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
