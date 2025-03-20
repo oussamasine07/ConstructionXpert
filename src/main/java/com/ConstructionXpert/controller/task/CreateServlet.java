@@ -68,6 +68,11 @@ public class CreateServlet extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Map<String, Object>> resourcesList = objectMapper.readValue(resourcesJson, new TypeReference<List>() {});
 
+        for (Map<String, Object> src : resourcesList ) {
+            ConsumedResource consRs = new ConsumedResource();
+            consRs.setQuantity(Integer.parseInt(src.get("quantity").toString()));
+
+        }
         resourcesList.forEach( ls -> System.out.println(ls) );
 
         LocalDate startDate = (req.getParameter("startDate") != null && !req.getParameter("startDate").isEmpty())
