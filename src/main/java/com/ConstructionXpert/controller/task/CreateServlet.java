@@ -5,10 +5,9 @@ import com.ConstructionXpert.dao.ProjectDAO;
 import com.ConstructionXpert.dao.ResourceDAO;
 import com.ConstructionXpert.dao.TaskDAO;
 import com.ConstructionXpert.dto.TaskDTO;
-import com.ConstructionXpert.model.Admin;
-import com.ConstructionXpert.model.Project;
-import com.ConstructionXpert.model.Resource;
-import com.ConstructionXpert.model.Task;
+import com.ConstructionXpert.model.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -65,7 +64,11 @@ public class CreateServlet extends HttpServlet {
 
         int projectId = Integer.parseInt(req.getParameter("projectId"));
 
+        String resourcesJson = req.getParameter("resources");
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> resourcesList = objectMapper.readValue(resourcesJson, new TypeReference<List>() {});
 
+        resourcesList.forEach( ls -> System.out.println(ls) );
 
         LocalDate startDate = (req.getParameter("startDate") != null && !req.getParameter("startDate").isEmpty())
                 ? LocalDate.parse(req.getParameter("startDate"))
@@ -102,7 +105,7 @@ public class CreateServlet extends HttpServlet {
             task.setEndDate(taskDTO.getEndDate());
             task.setProject( project );
 
-            taskDAO.insertTask( task );
+            //taskDAO.insertTask( task );
 
             res.sendRedirect(req.getContextPath() + "/tasks?projectId=" + projectId );
 
