@@ -2,10 +2,12 @@ package com.ConstructionXpert.controller.task;
 
 
 import com.ConstructionXpert.dao.ProjectDAO;
+import com.ConstructionXpert.dao.ResourceDAO;
 import com.ConstructionXpert.dao.TaskDAO;
 import com.ConstructionXpert.dto.TaskDTO;
 import com.ConstructionXpert.model.Admin;
 import com.ConstructionXpert.model.Project;
+import com.ConstructionXpert.model.Resource;
 import com.ConstructionXpert.model.Task;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -22,6 +24,7 @@ import jakarta.validation.ValidatorFactory;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,16 +36,22 @@ public class CreateServlet extends HttpServlet {
 
     TaskDAO taskDAO = null;
     ProjectDAO projectDAO = null;
+    ResourceDAO resourceDAO = null;
 
     public void init () {
         taskDAO = new TaskDAO();
         projectDAO = new ProjectDAO();
+        resourceDAO = new ResourceDAO();
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException
     {
-        //int projectId = Integer.parseInt(req.getParameter("projectId"));
+        Admin admin = (Admin) req.getSession().getAttribute("admin");
+
+        List<Resource> resources = resourceDAO.listResourcesById(admin.getAdminId());
+        req.setAttribute("resources", resources);
+        resources.forEach(src -> System.out.println(src.getName()));
 
         RequestDispatcher rd = req.getRequestDispatcher("/views/task/create.jsp");
         rd.forward(req, res);

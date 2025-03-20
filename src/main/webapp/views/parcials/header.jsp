@@ -11,6 +11,7 @@
   </title>
   <link rel="icon" href="favicon.ico">
   <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body
