@@ -22,10 +22,7 @@ import jakarta.validation.ValidatorFactory;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @WebServlet("/tasks/create")
 public class CreateServlet extends HttpServlet {
@@ -68,11 +65,21 @@ public class CreateServlet extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Map<String, Object>> resourcesList = objectMapper.readValue(resourcesJson, new TypeReference<List>() {});
 
+        List<ConsumedResource> consumedResources = new ArrayList<>();
+
         for (Map<String, Object> src : resourcesList ) {
             ConsumedResource consRs = new ConsumedResource();
             consRs.setQuantity(Integer.parseInt(src.get("quantity").toString()));
+            consRs.setUnitPrice(Double.parseDouble(src.get("quantity").toString()));
+            Resource  resource = new Resource();
+            resource.setResourceId(Integer.parseInt(src.get("resourceId").toString()));
+            consRs.setResource(resource);
+
+            consumedResources.add( consRs );
 
         }
+
+
         resourcesList.forEach( ls -> System.out.println(ls) );
 
         LocalDate startDate = (req.getParameter("startDate") != null && !req.getParameter("startDate").isEmpty())
@@ -110,7 +117,10 @@ public class CreateServlet extends HttpServlet {
             task.setEndDate(taskDTO.getEndDate());
             task.setProject( project );
 
-            //taskDAO.insertTask( task );
+            Task insertedTask = taskDAO.insertTask( task );
+
+
+
 
             res.sendRedirect(req.getContextPath() + "/tasks?projectId=" + projectId );
 

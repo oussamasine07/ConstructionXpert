@@ -54,7 +54,8 @@ public class TaskDAO extends ConnectToDb {
         return tasks;
     }
 
-    public void insertTask ( Task task ) {
+    public Task insertTask ( Task task ) {
+        Task insertedTask = new Task();
         try (
                 Connection con = getConnection();
                 PreparedStatement stmt = con.prepareStatement(INSERT_TASK, Statement.RETURN_GENERATED_KEYS);
@@ -67,13 +68,19 @@ public class TaskDAO extends ConnectToDb {
 
             System.out.println(stmt.toString());
             stmt.executeUpdate();
+
             ResultSet rs = stmt.getGeneratedKeys();
 
+            insertedTask.setTaskId(rs.getInt(1));
+            insertedTask.setName(rs.getString(3));
+            insertedTask.setDescription(rs.getString(4));
 
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return insertedTask;
     }
 
 }
