@@ -71,9 +71,10 @@ public class TaskDAO extends ConnectToDb {
 
             ResultSet rs = stmt.getGeneratedKeys();
 
-            insertedTask.setTaskId(rs.getInt(1));
-            insertedTask.setName(rs.getString(3));
-            insertedTask.setDescription(rs.getString(4));
+            if (rs.next()) {
+                insertedTask.setTaskId(rs.getInt(1));
+            }
+
 
         }
         catch (SQLException e) {

@@ -38,8 +38,11 @@ insert into tasks
 values
     (?, ?, ?, ?, ?);
 
-
-
+######################### Consumed resources #########################
+insert into consumed_resources
+    (task_id, resource_id, quantity, unitPrice)
+values
+    (?, ?, ?, ?);
 
 
 

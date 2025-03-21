@@ -1,6 +1,7 @@
 package com.ConstructionXpert.controller.task;
 
 
+import com.ConstructionXpert.dao.ConsumedResourceDAO;
 import com.ConstructionXpert.dao.ProjectDAO;
 import com.ConstructionXpert.dao.ResourceDAO;
 import com.ConstructionXpert.dao.TaskDAO;
@@ -33,11 +34,13 @@ public class CreateServlet extends HttpServlet {
     TaskDAO taskDAO = null;
     ProjectDAO projectDAO = null;
     ResourceDAO resourceDAO = null;
+    ConsumedResourceDAO consumedResourceDAO = null;
 
     public void init () {
         taskDAO = new TaskDAO();
         projectDAO = new ProjectDAO();
         resourceDAO = new ResourceDAO();
+        consumedResourceDAO = new ConsumedResourceDAO();
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -64,20 +67,6 @@ public class CreateServlet extends HttpServlet {
         String resourcesJson = req.getParameter("resources");
         ObjectMapper objectMapper = new ObjectMapper();
         List<Map<String, Object>> resourcesList = objectMapper.readValue(resourcesJson, new TypeReference<List>() {});
-
-        List<ConsumedResource> consumedResources = new ArrayList<>();
-
-        for (Map<String, Object> src : resourcesList ) {
-            ConsumedResource consRs = new ConsumedResource();
-            consRs.setQuantity(Integer.parseInt(src.get("quantity").toString()));
-            consRs.setUnitPrice(Double.parseDouble(src.get("quantity").toString()));
-            Resource  resource = new Resource();
-            resource.setResourceId(Integer.parseInt(src.get("resourceId").toString()));
-            consRs.setResource(resource);
-
-            consumedResources.add( consRs );
-
-        }
 
 
         resourcesList.forEach( ls -> System.out.println(ls) );
@@ -118,8 +107,21 @@ public class CreateServlet extends HttpServlet {
             task.setProject( project );
 
             Task insertedTask = taskDAO.insertTask( task );
+            System.out.println(insertedTask.getTaskId());
 
+            for (Map<String, Object> src : resourcesList ) {
+                ConsumedResource consRs = new ConsumedResource();
+                consRs.setQuantity(Integer.parseInt(src.get("quantity").toString()));
+                consRs.setUnitPrice(Double.parseDouble(src.get("quantity").toString()));
 
+                Resource  resource = new Resource();
+                resource.setResourceId(Integer.parseInt(src.get("resourceId").toString()));
+                consRs.setResource(resource);
+                consRs.setTask( insertedTask );
+
+                consumedResourceDAO.insertConsumedResource( consRs );
+
+            }
 
 
             res.sendRedirect(req.getContextPath() + "/tasks?projectId=" + projectId );
