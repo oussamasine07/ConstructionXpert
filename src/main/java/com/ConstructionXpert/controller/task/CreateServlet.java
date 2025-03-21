@@ -64,13 +64,6 @@ public class CreateServlet extends HttpServlet {
 
         int projectId = Integer.parseInt(req.getParameter("projectId"));
 
-        String resourcesJson = req.getParameter("resources");
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<Map<String, Object>> resourcesList = objectMapper.readValue(resourcesJson, new TypeReference<List>() {});
-
-
-        resourcesList.forEach( ls -> System.out.println(ls) );
-
         LocalDate startDate = (req.getParameter("startDate") != null && !req.getParameter("startDate").isEmpty())
                 ? LocalDate.parse(req.getParameter("startDate"))
                 : null;
@@ -85,16 +78,44 @@ public class CreateServlet extends HttpServlet {
                 endDate
         );
 
+        String resourcesJson = req.getParameter("resources");
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> resourcesList = objectMapper.readValue(resourcesJson, new TypeReference<List>() {});
+
+        List<Integer> qtyErrors = new ArrayList<>();
+
+        List<ConsumedResource> consumedResources = new ArrayList<>();
+
+        for (Map<String, Object> src : resourcesList ) {
+
+            if ( Integer.parseInt(src.get("quantity").toString()) > Integer.parseInt(src.get("currentQuantity").toString()) ) {
+                qtyErrors.add(Integer.parseInt(src.get("quantity").toString()));
+            }
+
+            ConsumedResource consRs = new ConsumedResource();
+            consRs.setQuantity(Integer.parseInt(src.get("quantity").toString()));
+
+            consRs.setUnitPrice(Double.parseDouble(src.get("unitPrice").toString()));
+
+            Resource  resource = new Resource();
+            resource.setResourceId(Integer.parseInt(src.get("resourceId").toString()));
+            consRs.setResource(resource);
+
+            consumedResources.add( consRs );
+
+        }
+
         Set<ConstraintViolation<TaskDTO>> violations = validator.validate(taskDTO);
         Map<String, String> errors = new HashMap<>();
 
-        if (!violations.isEmpty()) {
+        if (!violations.isEmpty() || !qtyErrors.isEmpty()) {
             for (ConstraintViolation<TaskDTO> violation : violations) {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             }
 
             session.setAttribute("errors", errors);
             session.setAttribute("old", taskDTO);
+            session.setAttribute("oldResources", resourcesJson);
             res.sendRedirect(req.getContextPath() + "/tasks/create?projectId=" + projectId);
         } else {
 
@@ -107,23 +128,13 @@ public class CreateServlet extends HttpServlet {
             task.setProject( project );
 
             Task insertedTask = taskDAO.insertTask( task );
-            System.out.println(insertedTask.getTaskId());
 
-            for (Map<String, Object> src : resourcesList ) {
-                ConsumedResource consRs = new ConsumedResource();
-                consRs.setQuantity(Integer.parseInt(src.get("quantity").toString()));
-                consRs.setUnitPrice(Double.parseDouble(src.get("quantity").toString()));
+            for ( ConsumedResource consumedResource : consumedResources ) {
 
-                Resource  resource = new Resource();
-                resource.setResourceId(Integer.parseInt(src.get("resourceId").toString()));
-                consRs.setResource(resource);
-                consRs.setTask( insertedTask );
-
-                consumedResourceDAO.insertConsumedResource( consRs );
+                consumedResource.setTask( insertedTask );
+                consumedResourceDAO.insertConsumedResource( consumedResource );
 
             }
-
-
             res.sendRedirect(req.getContextPath() + "/tasks?projectId=" + projectId );
 
         }

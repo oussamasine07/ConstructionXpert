@@ -4,6 +4,7 @@ import com.ConstructionXpert.model.ConsumedResource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConsumedResourceDAO extends ConnectToDb {
@@ -14,6 +15,9 @@ public class ConsumedResourceDAO extends ConnectToDb {
             "    (task_id, resource_id, quantity, unitPrice)\n" +
             "values\n" +
             "    (?, ?, ?, ?);";
+
+    private static final String SELECT_RESOURCE_BY_ID = "select * from resources\n" +
+            "where id = ?;";
 
     public void insertConsumedResource ( ConsumedResource consumedResource ) {
         try (
@@ -35,4 +39,34 @@ public class ConsumedResourceDAO extends ConnectToDb {
         }
     }
 
+    public boolean isValidQty ( int rsQty, int resourceId ) {
+        boolean isGreater = false;
+        try (
+            Connection con = getConnection();
+            PreparedStatement stmt = con.prepareStatement(SELECT_RESOURCE_BY_ID);
+        ) {
+            stmt.setInt(1, resourceId);
+            ResultSet rs = stmt.executeQuery();
+
+            int qty = rs.getInt("quantity");
+            isGreater = rsQty > qty;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return isGreater;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+

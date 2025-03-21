@@ -29,6 +29,10 @@ where id = ?;
 select * from tasks
 where project_id = ?;
 
+######################### Resources #########################
+select * from resources
+where id = ?;
+
 
 
 
