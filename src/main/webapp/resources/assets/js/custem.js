@@ -13,27 +13,30 @@ addResourceBtn.addEventListener("click", () => {
 
     // get the input fields values
     const resource = JSON.parse(resourceSelect.value);
-    const resourceQtyVal = resourceQty.value;
+    const resourceQtyVal = parseInt(resourceQty.value);
 
-    //create an object
-    const resourceObj = {
-        id: resourcesArr.length > 0 ? resourcesArr.length + 1 : 1,
-        resourceId: parseInt(resource.resourceId),
-        resourceName: resource.name,
-        currentQuantity: parseInt(resource.quantity),
-        quantity: parseInt(resourceQtyVal),
-        unitPrice: parseFloat(resource.unitPrice)
+    if (resourceQtyVal > 0) {
+        const resourceObj = {
+            id: resourcesArr.length > 0 ? resourcesArr.length + 1 : 1,
+            resourceId: parseInt(resource.resourceId),
+            resourceName: resource.name,
+            currentQuantity: parseInt(resource.quantity),
+            quantity: resourceQtyVal,
+            unitPrice: parseFloat(resource.unitPrice)
+        }
+
+        resourcesArr.push(resourceObj);
+        resources.setAttribute("value", JSON.stringify(resourcesArr))
+
+        const div = createListItem(resourceObj)
+
+        resourceItems.appendChild(div)
+
+        resourceQty.value = "";
     }
-
-    resourcesArr.push(resourceObj);
-    resources.setAttribute("value", JSON.stringify(resourcesArr))
-
-    const div = createListItem(resourceObj)
-    // add the element to dom
-    resourceItems.appendChild(div)
-
-    resourceQty.value = "";
 });
+
+
 
 // create a delete button
 function createListItem ( resourceObj ) {
@@ -43,10 +46,14 @@ function createListItem ( resourceObj ) {
 
     div.innerHTML = `
         <div class="col-span-4">${resourceObj.resourceName}</div>
-        <div class="col-span-2">${resourceObj.quantity}</div>
+        <div class="col-span-2 flex justify-center items-center">
+            <div class="mx-2">
+                <input type="text" class="dark:bg-dark-900 h-11 w-1/2 rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800" placeholder="Quantity" value="${resourceObj.quantity}" data-id="${resourceObj.id}" oninput="changeQty(this)">
+            </div>
+        </div>
         <div class="ml-auto col-span-2 grid place-items-center justify-self-end">
-            <button data-parentElem="resource-item-${resourceObj.id}" onclick="removeItem(this)" class="rounded-md border border-transparent p-2.5 text-center text-sm transition-all text-slate-400 hover:bg-slate-700 focus:bg-slate-700 active:bg-slate-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
-                delete
+            <button class="inline-flex items-center gap-2 px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-error-500 shadow-theme-xs hover:bg-error-600" type="button" data-parentElem="resource-item-${resourceObj.id}" onClick="removeItem(this)">
+                <i class="fa-solid fa-trash"></i>
             </button>
         </div>
     `
@@ -54,23 +61,29 @@ function createListItem ( resourceObj ) {
     return div;
 }
 
-if ( resourcesArr.length > 0 ) {
+if (resourcesArr.length > 0) {
     resourcesArr.forEach(resource => {
         const div = createListItem(resource)
         resourceItems.appendChild(div)
     });
 }
 
-function removeItem ( e ) {
+function removeItem(e) {
     const elemId = e.dataset.parentelem
     const resourceId = parseInt(elemId.split("-")[elemId.split("-").length - 1]);
 
-    resourcesArr = resourcesArr.filter(rsc => rsc.id != resourceId  )
+    resourcesArr = resourcesArr.filter(rsc => rsc.id != resourceId)
 
     resources.setAttribute("value", JSON.stringify(resourcesArr))
 
     resourceItems.removeChild(document.getElementById(elemId))
-
-
 }
+
+function changeQty ( e ) {
+    const id = parseInt(e.dataset.id);
+    resourcesArr = resourcesArr.map(src => src.id == id ? {...src, quantity: parseInt(e.value) } : src);
+    resources.setAttribute("value", JSON.stringify(resourcesArr))
+}
+
+
 

@@ -220,12 +220,16 @@
 
                 <div class="relative flex flex-col rounded-lg bg-slate-900 shadow-sm border border-slate-700 text-white mt-5">
                     <div id="resource-items" class="flex min-w-[240px] flex-col gap-1 p-1.5">
-                        <div role="button" class="text-white flex w-full items-center rounded-md p-2 pl-3 transition-all hover:bg-slate-800 focus:bg-slate-800 active:bg-slate-800 grid grid-cols-8 gap-3">
+                        <div class="text-white flex w-full items-center rounded-md p-2 pl-3 grid grid-cols-8 gap-3">
                             <div class="col-span-4">Item One</div>
-                            <div class="col-span-2">12</div>
+                            <div class="col-span-2 flex justify-center items-center">
+                                <div class="mx-2">
+                                    <input type="text" class="dark:bg-dark-900 h-11 w-1/2 rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800" placeholder="Quantity">
+                                </div>
+                            </div>
                             <div class="ml-auto col-span-2 grid place-items-center justify-self-end">
-                                <button class="rounded-md border border-transparent p-2.5 text-center text-sm transition-all text-slate-400 hover:bg-slate-700 focus:bg-slate-700 active:bg-slate-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
-                                    delete
+                                <button class="inline-flex items-center gap-2 px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-error-500 shadow-theme-xs hover:bg-error-600" type="button">
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
                         </div>
