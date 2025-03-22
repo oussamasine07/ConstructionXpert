@@ -33,6 +33,9 @@ public class ConsumedResourceDAO extends ConnectToDb {
             "on tasks.id = consumed_resources.task_id\n" +
             "where consumed_resources.task_id = ?;";
 
+    private static final String DELETE_CONSUMED_RESOURCE_BY_ID = "delete from consumed_resources\n" +
+            "where task_id = ?;";
+
     public void insertConsumedResource ( ConsumedResource consumedResource ) {
         try (
                 Connection con = getConnection();
@@ -99,6 +102,19 @@ public class ConsumedResourceDAO extends ConnectToDb {
             e.printStackTrace();
         }
         return consumedResources;
+    }
+
+    public void deleteConsumedResroucesByTaskId (int taskId ) {
+        try (
+            Connection con = getConnection();
+            PreparedStatement stmt = con.prepareStatement(DELETE_CONSUMED_RESOURCE_BY_ID);
+        ){
+            stmt.setInt( 1, taskId );
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -148,12 +148,12 @@ public class UpdateServlet extends HttpServlet {
 
             taskDAO.updateTaskById( task );
 
-//            for ( ConsumedResource consumedResource : consumedResources ) {
-//
-//                consumedResource.setTask( insertedTask );
-//                consumedResourceDAO.insertConsumedResource( consumedResource );
-//
-//            }
+            consumedResourceDAO.deleteConsumedResroucesByTaskId(taskId);
+
+            for ( ConsumedResource consumedResource : consumedResources ) {
+                consumedResource.setTask( task );
+                consumedResourceDAO.insertConsumedResource( consumedResource );
+            }
             res.sendRedirect(req.getContextPath() + "/tasks?projectId=" + projectId );
 
         }
