@@ -20,6 +20,7 @@ public class ConsumedResourceDAO extends ConnectToDb {
             "where id = ?;";
 
     private static final String GET_CONSUMED_RESOURCES_BY_ID = "select\n" +
+            "    resources.id,\n" +
             "    resources.name,\n" +
             "    consumed_resources.quantity,\n" +
             "    consumed_resources.unitPrice,\n" +
@@ -80,6 +81,7 @@ public class ConsumedResourceDAO extends ConnectToDb {
 
             while (rs.next()) {
                 Resource resource = new Resource();
+                resource.setResourceId(rs.getInt("id"));
                 resource.setName(rs.getString("name"));
                 ConsumedResource consumedResource = new ConsumedResource();
                 consumedResource.setResource(resource);

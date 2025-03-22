@@ -50,7 +50,7 @@ public class CreateServlet extends HttpServlet {
 
         List<Resource> resources = resourceDAO.listResourcesById(admin.getAdminId());
         req.setAttribute("resources", resources);
-        resources.forEach(src -> System.out.println(src.getName()));
+
 
         RequestDispatcher rd = req.getRequestDispatcher("/views/task/create.jsp");
         rd.forward(req, res);
