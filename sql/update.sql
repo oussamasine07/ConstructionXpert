@@ -17,3 +17,25 @@ update projects
         endDate = ?,
         budget  = ?
 where id = ?;
+
+##################### tasks ##################
+update tasks
+    set
+        name = ?,
+        description = ?,
+        startDate = ?,
+        endDate = ?
+where id = ?;
+
+
+
+
+
+
+
+
+
+
+
+
+

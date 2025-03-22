@@ -38,8 +38,10 @@ select * from tasks
 where id = ?;
 
 select
+    resources.id,
     resources.name,
-    consumed_resources.quantity,
+    resources.quantity as resource_quantity,
+    consumed_resources.quantity as consumed_quantity,
     consumed_resources.unitPrice,
     consumed_resources.totalPrice
 from resources

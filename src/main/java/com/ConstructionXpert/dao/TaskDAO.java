@@ -21,6 +21,14 @@ public class TaskDAO extends ConnectToDb {
     private static final String GET_TASK_BY_ID = "select * from tasks\n" +
             "where id = ?;";
 
+    private static final String UPDATE_TASK = "update tasks\n" +
+            "    set\n" +
+            "        name = ?,\n" +
+            "        description = ?,\n" +
+            "        startDate = ?,\n" +
+            "        endDate = ?\n" +
+            "where id = ?;";
+
     public TaskDAO () {}
     private ProjectDAO projectDAO = new ProjectDAO();
 
@@ -110,6 +118,29 @@ public class TaskDAO extends ConnectToDb {
             e.printStackTrace();
         }
         return task;
+    }
+
+    public void updateTaskById ( Task task ) {
+
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(UPDATE_TASK);
+        ){
+
+            stmt.setString(1, task.getName());
+            stmt.setString(2, task.getDescription());
+            stmt.setString(3, task.getStartDate().toString());
+            stmt.setString(4, task.getEndDate().toString());
+            stmt.setInt(5, task.getTaskId());
+
+            stmt.executeUpdate();
+
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
