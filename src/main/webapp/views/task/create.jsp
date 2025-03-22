@@ -14,6 +14,9 @@
     String oldResources = (String) session.getAttribute("oldResources");
     session.removeAttribute("oldResources");
 
+    List<Integer> qtyErrors = (List<Integer>) session.getAttribute("qtyErrors");
+    session.removeAttribute("qtyErrors");
+
     int projectId = Integer.parseInt(request.getParameter("projectId"));
 
 
@@ -167,6 +170,15 @@
                     <% if ( oldResources != null ) { %>
                         value='<%= oldResources %>'
                     <% } %>
+                />
+
+                <input
+                        type="text"
+                        id="qtyErrors"
+                        hidden
+                        <% if ( qtyErrors != null ) { %>
+                            value='<%= qtyErrors %>'
+                        <% } %>
                 />
 
                 <div class="mt-5 grid grid-cols-8 gap-3">

@@ -83,13 +83,12 @@ public class CreateServlet extends HttpServlet {
         List<Map<String, Object>> resourcesList = objectMapper.readValue(resourcesJson, new TypeReference<List>() {});
 
         List<Integer> qtyErrors = new ArrayList<>();
-
         List<ConsumedResource> consumedResources = new ArrayList<>();
 
         for (Map<String, Object> src : resourcesList ) {
 
             if ( Integer.parseInt(src.get("quantity").toString()) > Integer.parseInt(src.get("currentQuantity").toString()) ) {
-                qtyErrors.add(Integer.parseInt(src.get("quantity").toString()));
+                qtyErrors.add(Integer.parseInt(src.get("id").toString()));
             }
 
             ConsumedResource consRs = new ConsumedResource();
@@ -116,6 +115,7 @@ public class CreateServlet extends HttpServlet {
             session.setAttribute("errors", errors);
             session.setAttribute("old", taskDTO);
             session.setAttribute("oldResources", resourcesJson);
+            session.setAttribute("qtyErrors", qtyErrors);
             res.sendRedirect(req.getContextPath() + "/tasks/create?projectId=" + projectId);
         } else {
 
