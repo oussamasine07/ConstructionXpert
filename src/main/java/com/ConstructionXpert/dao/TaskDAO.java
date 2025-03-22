@@ -29,6 +29,9 @@ public class TaskDAO extends ConnectToDb {
             "        endDate = ?\n" +
             "where id = ?;";
 
+    private static final String DELETE_TASK_BY_ID = "delete from tasks\n" +
+            "where id = ?;";
+
     public TaskDAO () {}
     private ProjectDAO projectDAO = new ProjectDAO();
 
@@ -141,6 +144,19 @@ public class TaskDAO extends ConnectToDb {
             e.printStackTrace();
         }
 
+    }
+
+    public void deleteTaskById ( int taskId ) {
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(DELETE_TASK_BY_ID);
+        ){
+            stmt.setInt( 1, taskId );
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
