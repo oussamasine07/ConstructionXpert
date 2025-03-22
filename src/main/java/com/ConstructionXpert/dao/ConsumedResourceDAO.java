@@ -1,11 +1,11 @@
 package com.ConstructionXpert.dao;
 
 import com.ConstructionXpert.model.ConsumedResource;
+import com.ConstructionXpert.model.Resource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConsumedResourceDAO extends ConnectToDb {
 
@@ -18,6 +18,18 @@ public class ConsumedResourceDAO extends ConnectToDb {
 
     private static final String SELECT_RESOURCE_BY_ID = "select * from resources\n" +
             "where id = ?;";
+
+    private static final String GET_CONSUMED_RESOURCES_BY_ID = "select\n" +
+            "    resources.name,\n" +
+            "    consumed_resources.quantity,\n" +
+            "    consumed_resources.unitPrice,\n" +
+            "    consumed_resources.totalPrice\n" +
+            "from resources\n" +
+            "inner join consumed_resources\n" +
+            "on resources.id = consumed_resources.resource_id\n" +
+            "inner join tasks\n" +
+            "on tasks.id = consumed_resources.task_id\n" +
+            "where consumed_resources.task_id = ?;";
 
     public void insertConsumedResource ( ConsumedResource consumedResource ) {
         try (
@@ -55,6 +67,34 @@ public class ConsumedResourceDAO extends ConnectToDb {
             e.printStackTrace();
         }
         return isGreater;
+    }
+
+    public List<ConsumedResource> getConsumedResourcesByTaskId ( int taskId ) {
+        List<ConsumedResource> consumedResources = new ArrayList<>();
+        try (
+             Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(GET_CONSUMED_RESOURCES_BY_ID);
+        ){
+            stmt.setInt( 1, taskId );
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Resource resource = new Resource();
+                resource.setName(rs.getString("name"));
+                ConsumedResource consumedResource = new ConsumedResource();
+                consumedResource.setResource(resource);
+                consumedResource.setQuantity(rs.getInt("quantity"));
+                consumedResource.setUnitPrice(rs.getDouble("unitPrice"));
+                consumedResource.setTotalPrice(rs.getDouble("totalPrice"));
+
+                consumedResources.add(consumedResource);
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return consumedResources;
     }
 
 }

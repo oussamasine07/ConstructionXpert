@@ -33,6 +33,21 @@ where project_id = ?;
 select * from resources
 where id = ?;
 
+######################### Consumed Resources #########################
+select * from tasks
+where id = ?;
+
+select
+    resources.name,
+    consumed_resources.quantity,
+    consumed_resources.unitPrice,
+    consumed_resources.totalPrice
+from resources
+inner join consumed_resources
+on resources.id = consumed_resources.resource_id
+inner join tasks
+on tasks.id = consumed_resources.task_id
+where consumed_resources.task_id = ?;
 
 
 

@@ -18,6 +18,9 @@ public class TaskDAO extends ConnectToDb {
             "values\n" +
             "    (?, ?, ?, ?, ?);";
 
+    private static final String GET_TASK_BY_ID = "select * from tasks\n" +
+            "where id = ?;";
+
     public TaskDAO () {}
     private ProjectDAO projectDAO = new ProjectDAO();
 
@@ -84,4 +87,52 @@ public class TaskDAO extends ConnectToDb {
         return insertedTask;
     }
 
+    public Task getTaskById ( int taskId ) {
+        Task task = new Task();
+        try (
+            Connection con = getConnection();
+            PreparedStatement stmt = con.prepareStatement(GET_TASK_BY_ID);
+        ) {
+            stmt.setInt(1, taskId );
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                task.setTaskId(rs.getInt("id"));
+                task.setName(rs.getString("name"));
+                task.setDescription(rs.getString("description"));
+                task.setStartDate(LocalDate.parse(rs.getString("startDate")));
+                task.setEndDate(LocalDate.parse(rs.getString("endDate")));
+
+            }
+
+        }
+        catch (SQLException e ) {
+            e.printStackTrace();
+        }
+        return task;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
