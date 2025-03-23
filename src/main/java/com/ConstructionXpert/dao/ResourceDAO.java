@@ -44,6 +44,11 @@ public class ResourceDAO extends ConnectToDb {
     private static final String DELETE_RESOURCE_BY_ID = "delete from resources\n" +
             "where id = ?;";
 
+    private static final String COUNT_TOTAL_RESOURCES = "select\n" +
+            "    count(*) as count_resources\n" +
+            "from resources\n" +
+            "where resources.admin_id = ?;";
+
     public ResourceDAO () {}
 
     public List<Resource> listResourcesById (int adminId) {
@@ -162,6 +167,25 @@ public class ResourceDAO extends ConnectToDb {
         catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getTotalResources ( int adminId ) {
+        int count = 0;
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(COUNT_TOTAL_RESOURCES);
+        ){
+            stmt.setInt( 1, adminId );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt("count_resources");
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
 }

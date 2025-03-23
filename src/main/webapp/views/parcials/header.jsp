@@ -13,6 +13,7 @@
   <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <script src="https://kit.fontawesome.com/30a7946fd8.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/phosphor-icons@latest/dist/phosphor.css" rel="stylesheet">
 </head>
 
 <body

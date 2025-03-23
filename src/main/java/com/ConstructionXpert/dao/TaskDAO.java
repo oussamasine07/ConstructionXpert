@@ -32,6 +32,13 @@ public class TaskDAO extends ConnectToDb {
     private static final String DELETE_TASK_BY_ID = "delete from tasks\n" +
             "where id = ?;";
 
+    private static final String COUNT_PROJECT_TASKS = "select\n" +
+            "    count(*) as tasks_count\n" +
+            "from projects\n" +
+            "         inner join tasks\n" +
+            "                    on tasks.project_id = projects.id\n" +
+            "where projects.id = ?;";
+
     public TaskDAO () {}
     private ProjectDAO projectDAO = new ProjectDAO();
 
@@ -157,6 +164,24 @@ public class TaskDAO extends ConnectToDb {
         catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int countTasks ( int projectId ) {
+        int count = 0;
+        try (
+            Connection con = getConnection();
+            PreparedStatement stmt = con.prepareStatement(COUNT_PROJECT_TASKS )
+        ){
+            stmt.setInt(1, projectId);
+            ResultSet rs = stmt.executeQuery();
+            while ( rs.next() ) {
+                count = rs.getInt("tasks_count");
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
 }

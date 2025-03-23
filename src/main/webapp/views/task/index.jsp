@@ -1,7 +1,39 @@
-<%@ page import="com.ConstructionXpert.model.Task, java.util.*" %>
+<%@ page import="com.ConstructionXpert.model.*, java.util.*, java.text.*" %>
 <%
     List<Task> tasks = (List<Task>) request.getAttribute("tasks");
     int projectId = Integer.parseInt(request.getParameter("projectId"));
+
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    symbols.setGroupingSeparator('.');
+    symbols.setDecimalSeparator(',');
+    DecimalFormat df = new DecimalFormat("#,###.00", symbols);
+
+    Project project = (Project) request.getAttribute("project");
+//    double totalSpent = (Double) request.getAttribute("totalSpent");
+
+    String budget = df.format( project.getBudget() );
+    String totalSpent = df.format((Double) request.getAttribute("totalSpent"));
+    String rest = df.format( project.getBudget() - (Double) request.getAttribute("totalSpent"));
+
+    // calculate percentages
+    double spentPercentage = (Double) request.getAttribute("totalSpent") / project.getBudget() * 100;
+    double restPercentage = ((project.getBudget() - (Double) request.getAttribute("totalSpent")) / project.getBudget()) * 100;
+    String stylingClasses;
+    if ( 0 <= restPercentage && restPercentage  <= 33   ) {
+        // danger
+        stylingClasses = "flex items-center gap-1 rounded-full bg-error-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500";
+    }
+    else if ( 34 <= restPercentage && restPercentage  <= 67 ) {
+        // warning
+        stylingClasses = "flex items-center gap-1 rounded-full bg-warning-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-warning-600 dark:bg-warning-500/15 dark:text-warning-500";
+    }
+    else {
+        // success
+        stylingClasses = "flex items-center gap-1 rounded-full bg-success-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500";
+    }
+
+    int totalTasks = (Integer) request.getAttribute("totalTasks");
+
 
 %>
 <jsp:include page="/views/parcials/header.jsp"/>
@@ -10,7 +42,17 @@
     <!-- Breadcrumb Start -->
     <div x-data="{ pageName: `Basic Tables`}">
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">List of all tasks</h2>
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">Project: <%= project.getName() %>
+                </h2>
+                <div class="text-sm font-normal text-gray-700 dark:text-white/60 italic mt-3 flex justify-start items-center">
+                    <div>Deadline:</div>
+                    <div class="ml-3"> from: <%= project.getStartDate() %>
+                    </div>
+                    <div class="ml-3">to: <%= project.getEndDate()%>
+                    </div>
+                </div>
+            </div>
 
             <nav>
                 <ol class="flex items-center gap-1.5">
@@ -32,6 +74,72 @@
     </div>
     <!-- Breadcrumb End -->
 
+    <div class="my-3 md:my-6 grid gap-3 grid-cols-4 ">
+        <div class="col-span-1 rounded-2xl border border-gray-200 bg-white p-2 dark:border-gray-800 dark:bg-white/[0.03] md:p-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800">
+                <i class="fa-solid fa-money-bill-wave fill-white" style="font-size: 24px; color: #959ea9"></i>
+            </div>
+
+            <div class="mt-5 flex items-end justify-between">
+                <div>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">Budget</span>
+                    <h4 class="mt-2 text-md font-bold text-gray-800 dark:text-white/90"> <%= budget %> DH </h4>
+                </div>
+                <span class="flex items-center gap-1 rounded-full bg-success-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500"> 100,00% </span>
+            </div>
+        </div>
+
+        <div class="col-span-1 rounded-2xl border border-gray-200 bg-white p-2 dark:border-gray-800 dark:bg-white/[0.03] md:p-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800">
+                <i class="fa-solid fa-comment-dollar"  style="font-size: 24px; color: #959ea9"></i>
+            </div>
+
+            <div class="mt-5 flex items-end justify-between">
+                <div>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">Spent</span>
+                    <h4 class="mt-2 text-md font-bold text-gray-800 dark:text-white/90"> <%= totalSpent %> DH </h4>
+                </div>
+                <span class="flex items-center gap-1 rounded-full bg-blue-light-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-blue-light-600 dark:bg-blue-light-500/15 dark:text-blue-light-500">
+                      <%= df.format(spentPercentage) %>%
+                </span>
+            </div>
+        </div>
+
+        <div class='col-span-1 rounded-2xl border border-gray-200 bg-white p-2 dark:border-gray-800 dark:bg-white/[0.03] md:p-4'>
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800">
+                <i class="fas fa-money-check-alt" style="font-size: 24px; color: #959ea9"></i>
+            </div>
+
+            <div class="mt-5 flex items-end justify-between">
+                <div>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">Rest</span>
+                    <h4 class="mt-2 text-md font-bold text-gray-800 dark:text-white/90"> <%= rest %> DH </h4>
+                </div>
+                <span class='<%= stylingClasses %>'>
+                      <%= df.format(restPercentage) %>%
+                </span>
+            </div>
+        </div>
+        <div class="col-span-1 rounded-2xl border border-gray-200 bg-white p-2 dark:border-gray-800 dark:bg-white/[0.03] md:p-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800">
+                <i class="fas fa-tasks" style="font-size: 24px; color: #959ea9"></i>
+            </div>
+
+            <div class="mt-5 flex items-end justify-between">
+                <div>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">Tasks</span>
+                    <h4 class="mt-2 text-xl font-bold text-gray-800 dark:text-white/90"> <%= totalTasks %> </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class='col-span-1 rounded-2xl border border-gray-200 bg-white p-2 dark:border-gray-800 dark:bg-white/[0.03] p-3 md:p-6 my-4'>
+        <h2 class="text-md font-semibold text-gray-800 dark:text-white/90 mb-5">Description</h2>
+        <p class="text-md font-normal text-gray-800 dark:text-white/80"> <%= project.getDescription() %> </p>
+    </div>
+
     <div class="space-y-5 sm:space-y-6">
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
             <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
@@ -50,8 +158,7 @@
             </div>
             <div class="p-5 border-t border-gray-100 dark:border-gray-800 sm:p-6">
                 <!-- ====== Table Six Start -->
-                <div
-                        class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                <div class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
                     <div class="max-w-full overflow-x-auto">
                         <table class="min-w-full">
                             <!-- table header start -->
