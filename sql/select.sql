@@ -29,6 +29,13 @@ where id = ?;
 select * from tasks
 where project_id = ?;
 
+select
+    count(*)
+from projects
+         inner join tasks
+                    on tasks.project_id = projects.id
+where projects.id = ?;
+
 ######################### Resources #########################
 select * from resources
 where id = ?;
@@ -50,6 +57,15 @@ on resources.id = consumed_resources.resource_id
 inner join tasks
 on tasks.id = consumed_resources.task_id
 where consumed_resources.task_id = ?;
+
+select
+    sum(consumed_resources.totalPrice)
+from projects
+         inner join tasks
+                    on tasks.project_id = projects.id
+         inner join consumed_resources
+                    on consumed_resources.task_id = tasks.id
+where projects.id = ?;
 
 
 
