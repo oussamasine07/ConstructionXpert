@@ -49,7 +49,7 @@
         <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
             <!-- Elements -->
             <form action="${pageContext.request.contextPath}/resource/create" method="POST">
-                <div>
+                <div class="mb-5">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         Supplier
                     </label>
@@ -77,7 +77,7 @@
                               </span>
                     </div>
                 </div>
-                <div>
+                <div class="mb-5">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         Name
                     </label>
@@ -92,7 +92,7 @@
                     </p>
                     <% } %>
                 </div>
-                <div>
+                <div class="mb-5">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         Quantity
                     </label>
@@ -108,7 +108,7 @@
                     </p>
                     <% } %>
                 </div>
-                <div>
+                <div class="mb-5">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         Unit price
                     </label>
@@ -125,7 +125,7 @@
                     <% } %>
                 </div>
                 <div>
-                    <button type="submit" class="py-2 px-4 bg-blue-400 text-gray-700 dark:text-white">Create Resource
+                    <button type="submit" class="py-2 px-4 bg-blue-light-500 rounded-md text-gray-700 dark:text-white">Create Resource
                     </button>
                 </div>
             </form>
