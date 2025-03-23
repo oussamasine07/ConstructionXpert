@@ -28,6 +28,11 @@ select * from projects
 where admin_id = ?;
 
 select * from projects
+where admin_id = ?
+order by id desc
+limit 3;
+
+select * from projects
 where id = ?;
 
 select

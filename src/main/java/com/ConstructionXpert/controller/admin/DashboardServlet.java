@@ -4,6 +4,7 @@ import com.ConstructionXpert.dao.ConsumedResourceDAO;
 import com.ConstructionXpert.dao.ProjectDAO;
 import com.ConstructionXpert.dao.ResourceDAO;
 import com.ConstructionXpert.model.Admin;
+import com.ConstructionXpert.model.Project;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
@@ -41,6 +43,9 @@ public class DashboardServlet extends HttpServlet {
 
         int coutResources = resourceDAO.getTotalResources(admin.getAdminId());
         req.setAttribute("coutResources", coutResources);
+
+        List<Project> projects = projectDAO.getLastProjectsByLimit( admin.getAdminId(), 3);
+        req.setAttribute("projects", projects);
 
         RequestDispatcher rd = req.getRequestDispatcher("/views/user/dashboard.jsp");
         rd.forward(req, res);

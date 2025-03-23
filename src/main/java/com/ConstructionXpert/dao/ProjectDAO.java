@@ -37,11 +37,15 @@ public class ProjectDAO extends ConnectToDb {
             "from projects\n" +
             "where projects.admin_id = ?;";
 
+    private static final String GET_LAST_THREE_PROJECTS = "select * from projects\n" +
+            "where admin_id = ?\n" +
+            "order by id desc\n" +
+            "limit ?;";
+
     public ProjectDAO () {}
 
     public List<Project> listProjectsByAdminId (int adminId) {
         List<Project> projects = new ArrayList<>();
-
         try (
                 Connection con = getConnection();
                 PreparedStatement stmt = con.prepareStatement(LIST_PROJECTS_BY_ADMIN_ID);
@@ -174,6 +178,38 @@ public class ProjectDAO extends ConnectToDb {
             e.printStackTrace();
         }
         return count;
+    }
+
+    public List<Project> getLastProjectsByLimit (int adminId, int limit) {
+        List<Project> projects = new ArrayList<>();
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(GET_LAST_THREE_PROJECTS);
+        ){
+            stmt.setInt(1, adminId);
+            stmt.setInt(2, limit);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                Project project = new Project();
+                Admin admin = new Admin();
+                admin.setAdminId(rs.getInt("admin_id"));
+                project.setProjectId(rs.getInt("id"));
+                project.setName(rs.getString("name"));
+                project.setDescription(rs.getString("description"));
+                project.setStartDate(LocalDate.parse(rs.getString("startDate")));
+                project.setEndDate(LocalDate.parse(rs.getString("endDate")));
+                project.setBudget(rs.getDouble("budget"));
+
+                projects.add(project);
+            }
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return projects;
     }
 
 
