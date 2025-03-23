@@ -133,7 +133,6 @@
 
             </div>
         </div>
-
     </div>
 
     <div class='col-span-1 rounded-2xl border border-gray-200 bg-white p-2 dark:border-gray-800 dark:bg-white/[0.03] p-3 md:p-6 my-4'>

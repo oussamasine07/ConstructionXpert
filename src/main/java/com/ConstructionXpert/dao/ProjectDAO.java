@@ -32,6 +32,11 @@ public class ProjectDAO extends ConnectToDb {
     private static final String DELETE_PROJECT = "delete from projects\n" +
             "where id = ?;";
 
+    private static final String COUNT_PROJECTS = "select\n" +
+            "    count(*) as count_projects\n" +
+            "from projects\n" +
+            "where projects.admin_id = ?;";
+
     public ProjectDAO () {}
 
     public List<Project> listProjectsByAdminId (int adminId) {
@@ -153,6 +158,23 @@ public class ProjectDAO extends ConnectToDb {
         }
     }
 
+    public int countTotalProjects (int adminId ) {
+        int count = 0;
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(COUNT_PROJECTS)
+        ){
+            stmt.setInt(1, adminId);
+            ResultSet rs = stmt.executeQuery();
+            while ( rs.next() ) {
+                count = rs.getInt("count_projects");
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 
 
 }

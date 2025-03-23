@@ -45,6 +45,15 @@ public class ConsumedResourceDAO extends ConnectToDb {
             "                    on consumed_resources.task_id = tasks.id\n" +
             "where projects.id = ?;";
 
+    private static final String SUM_TOTAL_SPENT = "select\n" +
+            "    sum(consumed_resources.totalPrice) as sum_resources\n" +
+            "from projects\n" +
+            "         inner join tasks\n" +
+            "                    on tasks.project_id = projects.id\n" +
+            "         inner join consumed_resources\n" +
+            "                    on consumed_resources.task_id = tasks.id\n" +
+            "where projects.admin_id = ?;";
+
     public void insertConsumedResource ( ConsumedResource consumedResource ) {
         try (
                 Connection con = getConnection();
@@ -136,6 +145,25 @@ public class ConsumedResourceDAO extends ConnectToDb {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 total = rs.getDouble("totalSpent");
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
+    public double getTotalSpent ( int adminId ) {
+        double total = 0;
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(SUM_TOTAL_SPENT);
+        ){
+            stmt.setInt( 1, adminId );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                total = rs.getDouble("sum_resources");
             }
 
         }

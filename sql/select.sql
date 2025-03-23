@@ -18,12 +18,22 @@ inner join suppliers
 on suppliers.id = resources.supplier_id
 where resources.id = ?;
 
+select
+    count(*) as count_resources
+from resources
+where resources.admin_id = ?;
+
 ###################### Projects ######################
 select * from projects
 where admin_id = ?;
 
 select * from projects
 where id = ?;
+
+select
+    count(*) as count_projects
+from projects
+where projects.admin_id = ?;
 
 ###################### Tasks ######################
 select * from tasks
@@ -59,13 +69,13 @@ on tasks.id = consumed_resources.task_id
 where consumed_resources.task_id = ?;
 
 select
-    sum(consumed_resources.totalPrice)
+    sum(consumed_resources.totalPrice) as sum_resources
 from projects
          inner join tasks
                     on tasks.project_id = projects.id
          inner join consumed_resources
                     on consumed_resources.task_id = tasks.id
-where projects.id = ?;
+where projects.admin_id = ?;
 
 
 
