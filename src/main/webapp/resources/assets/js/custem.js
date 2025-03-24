@@ -2,11 +2,10 @@ const resourceSelect = document.getElementById("resource-select");
 const resourceQty = document.getElementById("resourceQty");
 const addResourceBtn = document.getElementById("addResourceBtn");
 const resources = document.getElementById("resources");
-const qtyErrors = document.getElementById("qtyErrors").value != "" ? JSON.parse(document.getElementById("qtyErrors").value) : [];
-
-const resourceItems = document.getElementById("resource-items");
-
 let resourcesArr = resources.value != "" ? JSON.parse(resources.value) : [];
+
+const qtyErrors = document.getElementById("qtyErrors").value != "" ? JSON.parse(document.getElementById("qtyErrors").value) : [];
+const resourceItems = document.getElementById("resource-items");
 
 console.log(resourcesArr)
 
@@ -37,7 +36,7 @@ addResourceBtn.addEventListener("click", () => {
 
 // create a delete button
 function createListItem ( resourceObj, elemId ) {
-    console.log(elemId);
+    //console.log(elemId);
     const div = document.createElement("div");
     div.className = "text-white flex w-full items-center rounded-md p-2 pl-3 transition-all bg-slate-800 focus:bg-slate-800 active:bg-slate-800 grid grid-cols-8 gap-3";
     div.id = `resource-item-${resourceObj.id}`;
@@ -62,6 +61,7 @@ function createListItem ( resourceObj, elemId ) {
 if (resourcesArr.length > 0) {
     resourcesArr.forEach((resource, idx) => {
         const elemId = qtyErrors[idx]
+        console.log(elemId)
         const div = createListItem(resource, elemId)
         resourceItems.appendChild(div)
     });
