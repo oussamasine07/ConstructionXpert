@@ -41,7 +41,7 @@
                 <div class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 p-2 dark:bg-white/[0.03] sm:p-3">
                     <div class="max-w-full overflow-x-auto">
                         <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90 mb-5"> <%= task.getName() %> </h2>
-                        <p class="text-gray-500 text-theme-sm dark:text-gray-50"> <%= task.getDescription() %> </p>
+                        <p class="text-gray-500 text-theme-sm dark:text-white/80"> <%= task.getDescription() %> </p>
                     </div>
                 </div>
             </div>
@@ -57,28 +57,28 @@
                                     <tr class="border-b border-gray-100 dark:border-gray-800">
                                         <th class="px-5 py-3 sm:px-6">
                                             <div class="flex items-center">
-                                                <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                                <p class="font-bold text-gray-500 text-theme-sm dark:text-white/90">
                                                     Name
                                                 </p>
                                             </div>
                                         </th>
                                         <th class="px-5 py-3 sm:px-6">
                                             <div class="flex items-center">
-                                                <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                                <p class="font-bold text-gray-500 text-theme-sm dark:text-white/90">
                                                     Quantity
                                                 </p>
                                             </div>
                                         </th>
                                         <th class="px-5 py-3 sm:px-6">
                                             <div class="flex items-center">
-                                                <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                                <p class="font-bold text-gray-500 text-theme-sm dark:text-white/90">
                                                     Unit price
                                                 </p>
                                             </div>
                                         </th>
                                         <th class="px-5 py-3 sm:px-6">
                                             <div class="flex items-center">
-                                                <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                                <p class="font-bold text-gray-500 text-theme-sm dark:text-white/90">
                                                     Total price
                                                 </p>
                                             </div>
@@ -93,28 +93,28 @@
                                     <tr>
                                         <td class="px-5 py-4 sm:px-6">
                                             <div class="flex items-center">
-                                                <p class="text-gray-500 text-theme-sm dark:text-gray-200">
+                                                <p class="text-gray-500 text-theme-sm dark:text-white/80">
                                                     <%= consumedResource.getResource().getName() %>
                                                 </p>
                                             </div>
                                         </td>
                                         <td class="px-5 py-4 sm:px-6">
                                             <div class="flex items-center">
-                                                <p class="text-gray-500 text-theme-sm dark:text-gray-200">
+                                                <p class="text-gray-500 text-theme-sm dark:text-white/80">
                                                     <%= consumedResource.getQuantity() %>
                                                 </p>
                                             </div>
                                         </td>
                                         <td class="px-5 py-4 sm:px-6">
                                             <div class="flex items-center">
-                                                <p class="text-gray-500 text-theme-sm dark:text-gray-200">
+                                                <p class="text-gray-500 text-theme-sm dark:text-white/80">
                                                     <%= consumedResource.getUnitPrice() %>
                                                 </p>
                                             </div>
                                         </td>
                                         <td class="px-5 py-4 sm:px-6">
                                             <div class="flex items-center">
-                                                <p class="text-gray-500 text-theme-sm dark:text-gray-200">
+                                                <p class="text-gray-500 text-theme-sm dark:text-white/80">
                                                     <%= consumedResource.getTotalPrice() %>
                                                 </p>
                                             </div>
@@ -124,7 +124,7 @@
                                 <tr>
                                     <td class="px-5 py-4 sm:px-6">
                                         <div class="flex items-center">
-                                            <p class="text-gray-500 text-theme-sm dark:text-gray-50">
+                                            <p class="text-error-500 text-theme-md dark:text-error-100">
                                                 <strong>Spent Total:</strong>
                                             </p>
                                         </div>
@@ -137,7 +137,7 @@
                                     </td>
                                     <td class="px-5 py-4 sm:px-6">
                                         <div class="flex items-center">
-                                            <p class="text-gray-500 text-theme-sm dark:text-gray-50">
+                                            <p class="text-error-500 text-theme-md dark:text-error-100">
                                                 <strong><%= cumulativeTotal %></strong>
                                             </p>
                                         </div>

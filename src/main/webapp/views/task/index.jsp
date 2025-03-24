@@ -148,7 +148,7 @@
                 </h3>
 
                 <a href="${pageContext.request.contextPath}/tasks/create?projectId=<%= projectId %>"
-                   class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold rounded-lg shadow-md hover:from-green-600 hover:to-green-800 transition-all duration-300 flex items-center gap-2">
+                   class="px-6 py-2 bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold rounded-lg shadow-md hover:from-green-600 hover:to-green-800 transition-all duration-300 flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
@@ -163,77 +163,81 @@
                         <table class="min-w-full">
                             <!-- table header start -->
                             <thead>
-                            <tr class="border-b border-gray-100 dark:border-gray-800">
-                                <th class="px-5 py-3 sm:px-6">
-                                    <div class="flex items-center">
-                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                            Name
-                                        </p>
-                                    </div>
-                                </th>
-                                <th class="px-5 py-3 sm:px-6">
-                                    <div class="flex items-center">
-                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                            Start date
-                                        </p>
-                                    </div>
-                                </th>
-                                <th class="px-5 py-3 sm:px-6">
-                                    <div class="flex items-center">
-                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                            End date
-                                        </p>
-                                    </div>
-                                </th>
-                                <th class="px-5 py-3 sm:px-6">
-                                    <div class="flex items-center">
-                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                            Actions
-                                        </p>
-                                    </div>
-                                </th>
-                            </tr>
+                                <tr class="border-b border-gray-100 dark:border-gray-800">
+                                    <th class="px-5 py-3 sm:px-6">
+                                        <div class="flex items-center">
+                                            <p class="font-bold text-gray-500 text-theme-sm dark:text-white/90">
+                                                Name
+                                            </p>
+                                        </div>
+                                    </th>
+                                    <th class="px-5 py-3 sm:px-6">
+                                        <div class="flex items-center">
+                                            <p class="font-bold text-gray-500 text-theme-sm dark:text-white/90">
+                                                Start date
+                                            </p>
+                                        </div>
+                                    </th>
+                                    <th class="px-5 py-3 sm:px-6">
+                                        <div class="flex items-center">
+                                            <p class="font-bold text-gray-500 text-theme-sm dark:text-white/90">
+                                                End date
+                                            </p>
+                                        </div>
+                                    </th>
+                                    <th class="px-5 py-3 sm:px-6">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-bold text-gray-500 text-theme-sm dark:text-white/90">
+                                                Actions
+                                            </p>
+                                        </div>
+                                    </th>
+                                </tr>
                             </thead>
                             <!-- table header end -->
                             <!-- table body start -->
                             <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
 
                             <% for (Task task : tasks) { %>
-                            <tr>
-                                <td class="px-5 py-4 sm:px-6">
-                                    <div class="flex items-center">
-                                        <p class="text-gray-500 text-theme-sm dark:text-gray-200">
-                                            <a href="${pageContext.request.contextPath}/tasks/show?projectId=<%= task.getProject().getProjectId() %>&taskId=<%= task.getTaskId() %>">
-                                                <%= task.getName() %>
-                                            </a>
-                                        </p>
-                                    </div>
-                                </td>
-                                <td class="px-5 py-4 sm:px-6">
-                                    <div class="flex items-center">
-                                        <p class="text-gray-500 text-theme-sm dark:text-gray-200">
-                                            <%= task.getStartDate() %>
-                                        </p>
-                                    </div>
-                                </td>
-                                <td class="px-5 py-4 sm:px-6">
-                                    <div class="flex items-center">
-                                        <p class="text-gray-500 text-theme-sm dark:text-gray-200">
-                                            <%= task.getEndDate() %>
-                                        </p>
-                                    </div>
-                                </td>
+                                <tr>
+                                    <td class="px-5 py-4 sm:px-6">
+                                        <div class="flex items-center">
+                                            <p class="text-gray-500 text-theme-sm dark:text-white/80">
+                                                <a href="${pageContext.request.contextPath}/tasks/show?projectId=<%= task.getProject().getProjectId() %>&taskId=<%= task.getTaskId() %>">
+                                                    <%= task.getName() %>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 sm:px-6">
+                                        <div class="flex items-center">
+                                            <p class="text-gray-500 text-theme-sm dark:text-white/80">
+                                                <%= task.getStartDate() %>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 sm:px-6">
+                                        <div class="flex items-center">
+                                            <p class="text-gray-500 text-theme-sm dark:text-white/80">
+                                                <%= task.getEndDate() %>
+                                            </p>
+                                        </div>
+                                    </td>
 
-                                <td class="px-5 py-4 sm:px-6">
-                                    <div class="flex items-center">
-                                        <a href="${pageContext.request.contextPath}/tasks/update?projectId=<%= task.getProject().getProjectId() %>&taskId=<%= task.getTaskId() %>">edit</a>
-                                        <form action="${pageContext.request.contextPath}/tasks/delete?projectId=<%= task.getProject().getProjectId() %>&taskId=<%= task.getTaskId() %>"
-                                              method="POST">
-                                            <button type="sumbmit">delete</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
+                                    <td class="px-5 py-4 sm:px-6">
+                                        <div class="flex items-center justify-center">
+                                            <a href="${pageContext.request.contextPath}/tasks/update?projectId=<%= task.getProject().getProjectId() %>&taskId=<%= task.getTaskId() %>" class="block px-4 py-1 text-white bg-warning-500 hover:bg-warning-200 focus:ring-2 focus:ring-blue-300 rounded-lg shadow-md transition-all mr-2">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </a>
+                                            <form action="${pageContext.request.contextPath}/tasks/delete?projectId=<%= task.getProject().getProjectId() %>&taskId=<%= task.getTaskId() %>"
+                                                  method="POST">
+                                                <button type="sumbmit" class="block px-4 py-1 text-white bg-error-500 hover:bg-error-200 focus:ring-2 focus:ring-error-300 rounded-lg shadow-md transition-all">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
                             <% } %>
 
 

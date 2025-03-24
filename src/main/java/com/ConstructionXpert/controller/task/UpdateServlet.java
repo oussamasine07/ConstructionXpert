@@ -110,7 +110,7 @@ public class UpdateServlet extends HttpServlet {
         for (Map<String, Object> src : resourcesList ) {
 
             if ( Integer.parseInt(src.get("quantity").toString()) > Integer.parseInt(src.get("currentQuantity").toString()) ) {
-                qtyErrors.add(Integer.parseInt(src.get("quantity").toString()));
+                qtyErrors.add(Integer.parseInt(src.get("id").toString()));
             }
 
             ConsumedResource consRs = new ConsumedResource();
@@ -136,7 +136,9 @@ public class UpdateServlet extends HttpServlet {
             session.setAttribute("errors", errors);
             session.setAttribute("old", taskDTO);
             session.setAttribute("oldResources", resourcesJson);
-            res.sendRedirect(req.getContextPath() + "/tasks/update?projectId=" + projectId);
+            session.setAttribute("qtyErrors", qtyErrors);
+            System.out.println(qtyErrors);
+            res.sendRedirect(req.getContextPath() + "/tasks/update?projectId=" + projectId + "&taskId=" + taskId);
         } else {
 
             Task task = new Task();

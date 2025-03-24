@@ -20,6 +20,9 @@
     String oldResources = (String) session.getAttribute("oldResources");
     session.removeAttribute("oldResources");
 
+    List<Integer> qtyErrors = (List<Integer>) session.getAttribute("qtyErrors");
+    session.removeAttribute("qtyErrors");
+
     int projectId = Integer.parseInt(request.getParameter("projectId"));
 
 
@@ -164,12 +167,21 @@
                         <% } %>
                     </div>
                 </div>
+
                 <input
                         type="text"
                         name="resources"
                         id="resources"
                         value='<%= oldResources != null ? oldResources : jsonMapedResources != null ? jsonMapedResources : "" %>'
                         hidden
+                />
+                <input
+                        type="text"
+                        id="qtyErrors"
+                        hidden
+                        <% if ( qtyErrors != null ) { %>
+                        value='<%= qtyErrors %>'
+                        <% } %>
                 />
 
                 <div class="mt-5 grid grid-cols-8 gap-3">
@@ -214,20 +226,19 @@
                             />
                         </div>
                     </div>
-                    <div class="col-span-2 flex justify-center items-center">
-                        <button type="button" id="addResourceBtn" class="py-2 px-4 bg-blue-400 text-gray-700 dark:text-white">Add resource</button>
+                    <div class="col-span-2 flex justify-center items-end">
+                        <button type="button" id="addResourceBtn" class="py-2 px-4 bg-brand-500 rounded-md text-gray-700 dark:text-white block h-11 w-full">Add resource</button>
                     </div>
                 </div>
 
-
-                <div class="relative flex flex-col rounded-lg bg-slate-900 shadow-sm border border-slate-700 text-white mt-5">
+                <div class="relative flex flex-col rounded-lg shadow-sm  border-gray-300 text-white my-5">
                     <div id="resource-items" class="flex min-w-[240px] flex-col gap-1 p-1.5">
 
                     </div>
                 </div>
 
                 <div>
-                    <button type="submit" class="py-2 px-4 bg-blue-400 text-gray-700 dark:text-white">Update Task
+                    <button type="submit" class="py-2 px-4 bg-warning-500 text-gray-700 dark:text-white rounded-md">Update Task
                     </button>
                 </div>
             </form>
