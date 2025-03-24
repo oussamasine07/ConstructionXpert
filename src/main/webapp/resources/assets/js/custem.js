@@ -39,7 +39,7 @@ addResourceBtn.addEventListener("click", () => {
 function createListItem ( resourceObj, elemId ) {
     console.log(elemId);
     const div = document.createElement("div");
-    div.className = "text-white flex w-full items-center rounded-md p-2 pl-3 transition-all hover:bg-slate-800 focus:bg-slate-800 active:bg-slate-800 grid grid-cols-8 gap-3";
+    div.className = "text-white flex w-full items-center rounded-md p-2 pl-3 transition-all bg-slate-800 focus:bg-slate-800 active:bg-slate-800 grid grid-cols-8 gap-3";
     div.id = `resource-item-${resourceObj.id}`;
 
     div.innerHTML = `

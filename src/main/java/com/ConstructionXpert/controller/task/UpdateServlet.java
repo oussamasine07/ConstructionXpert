@@ -136,7 +136,7 @@ public class UpdateServlet extends HttpServlet {
             session.setAttribute("errors", errors);
             session.setAttribute("old", taskDTO);
             session.setAttribute("oldResources", resourcesJson);
-            res.sendRedirect(req.getContextPath() + "/tasks/update?projectId=" + projectId);
+            res.sendRedirect(req.getContextPath() + "/tasks/update?projectId=" + projectId + "&taskId=" + taskId);
         } else {
 
             Task task = new Task();
