@@ -9,7 +9,7 @@
     <!-- Breadcrumb Start -->
     <div x-data="{ pageName: `Basic Tables`}">
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">List of all resources</h2>
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">List of all projects</h2>
 
             <nav>
                 <ol class="flex items-center gap-1.5">
@@ -35,7 +35,7 @@
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
             <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
                 <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
-                    Last 3 projects
+                    All projects
                 </h3>
 
                 <a href="${pageContext.request.contextPath}/project/create"
